@@ -1,0 +1,61 @@
+{
+    "locations": [
+      {
+        "id": 1,
+        "latitude": 48.8566,
+        "longitude": 2.3522,
+        "description": "Centre de Paris",
+        "note": "Point touristique majeur",
+        "bat": 85,
+        "alert": false,
+        "waypoint": {
+          "latitude": 48.857,
+          "longitude": 2.353,
+          "description": "Visite du centre historique avec vue sur Notre-Dame"
+        }
+      },
+      {
+        "id": 2,
+        "latitude": 45.764,
+        "longitude": 4.8357,
+        "description": "Place Bellecour, Lyon",
+        "note": "Grande place centrale",
+        "bat": 90,
+        "alert": false,
+        "waypoint": {
+          "latitude": 45.765,
+          "longitude": 4.8365,
+          "description": "Statue de Louis XIV et panorama vers Fourvière"
+        }
+      },
+      {
+        "id": 3,
+        "latitude": 43.6045,
+        "longitude": 1.444,
+        "description": "Capitole de Toulouse",
+        "note": "Bâtiment historique et mairie",
+        "bat": 78,
+        "alert": true,
+        "waypoint": {
+          "latitude": 43.605,
+          "longitude": 1.445,
+          "description": "Place du Capitole, animations et marchés"
+        }
+      },
+      {
+        "id": 4,
+        "latitude": 50.6292,
+        "longitude": 3.0573,
+        "description": "Grand Place de Lille",
+        "note": "Centre animé de Lille",
+        "bat": 88,
+        "alert": false,
+        "waypoint": {
+          "latitude": 50.630,
+          "longitude": 3.058,
+          "description": "Vieille Bourse, architecture flamande"
+        }
+      }
+    ]
+  }
+  
