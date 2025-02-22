@@ -31,24 +31,17 @@
   
   //links for the sidebar
     const links = [{
-        label: 'Home',
-        icon: 'i-heroicons-home'
+        label: 'Map',
+        icon: 'i-heroicons-map',
+        to: '/'
         }, {
-        label: 'Inbox',
-        icon: 'i-heroicons-inbox',
-        badge: '4'
-        }, {
-        label: 'Users',
-        icon: 'i-heroicons-user-group'
-        }, {
-        label: 'Settings',
-        icon: 'i-heroicons-cog-8-tooth',
-        children: [{
-            label: 'General'
-        }, {
-            label: 'Members'
-        }, {
-            label: 'Notifications'
-        }]
+        label: 'Console',
+        icon: 'i-heroicons-command-line',
+        children:[
+            {
+                label: 'Simulator',
+                to: '/simulator'
+            }
+        ]
     }]
 </script>
