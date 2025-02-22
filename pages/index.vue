@@ -220,6 +220,22 @@
 
         </section>
 
+
+          <!---
+            Cette balise permet d'afficher la position de l'utilisateur
+          -->
+          <LMarker 
+                  v-if=" UserPosition !== null" 
+                  :lat-lng="UserPosition">
+                  <LIcon :icon-url="UserLocation" :icon-size="iconSize" /> 
+
+                  <LTooltip>
+                    <UDashboardPanelContent>
+                        <p>Vous etes ici ! </p>
+                    </UDashboardPanelContent>
+                </LTooltip>
+          </LMarker>
+
       </LMap>
     </div>
 
@@ -520,6 +536,52 @@
       // leafletMap.setView([lat, lon], 13);
       leafletMap.flyTo([lat, lon], 13);
    }
+
+   const DisplayError=(err)=>{
+     console.log("Vous avez cette erreur",err);
+   }
+
+   onMounted(()=>{
+
+    /**
+     * La méthode Geolocation.watchPosition() permet de manipuler 
+     * une fonction appelée automatiquement à chaque fois que la position de l'appareil change.  
+    */
+
+      if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(DisplayUserPosition,DisplayError,{
+          enableHighAccuracy: true,
+          maximumAge: 0,
+          timeout: 10000
+        })
+      }
+   }); 
+
+
+   /***
+    * WEBSOCKET WITH : SERVER SENT EVENT (SSE), DATA REAL TIME
+    */
+
+    const eventData= ref(null);
+
+    onMounted(()=>{
+
+      // Connexion à la route API créée dans Nuxt
+
+      const eventSource = new EventSource('/api/sse');
+      
+      eventSource.onmessage = (event) => {
+        console.log('Message:', event.data);
+        eventData.value = JSON.parse(event.data);
+      }
+
+      eventSource.onerror = (error) => {
+        console.error('Erreur:', error);
+        eventSource.close();
+      }
+
+
+    })
    
   </script>
   
