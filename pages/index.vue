@@ -294,18 +294,22 @@
       iconAnchor: [17, 34],
       popupAnchor: [0, -34]
     });
+
+    /**
+   * ICon Taxi
+   */
+   const IconTaxi = "/svg/taxi-svgrepo-com.svg"; 
+   const iconSize = [32, 32]
+   const UserLocation="/svg/location-indicator-red-svgrepo-com.svg";
   
   
 
   /***
-   * Replay fonctionnalité
+   * Quand la carte leaflet est prête
+   * et que l'instance de la carte est disponible
+   * on peut manipuler les évenements
+   * et les controleurs de la carte
    */
-
-   const locations = [{
-      name: 'Nantes',
-      lat: 47.218371,
-      lng: -1.553621
-    }];
 
   const onMapReady=()=>{
     console.log('Map is ready');
@@ -313,13 +317,20 @@
     console.log(leafletMap);
     if(leafletMap){
 
+      /**
+       * La variable
+       * leafletMap contient l'instance de la carte
+       * pour manipuler les évenements
+       */
+
       leafletMap.on('dblclick', (e)=>{
         console.log(e.latlng);
       })
 
       /**
-       * Je poeux utuliser la variale 
+       * La variale 
        * routingControl
+       * pour manipuler le controleur de la route
        */
 
       const routingControl=L.Routing.control({
@@ -327,13 +338,18 @@
           L.latLng(48.8566, 2.3522), // Départ
           L.latLng(49.8666, 6.3622)  // Arrivée
         ],
-        routeWhileDragging: true,
-        show: true,
+        routeWhileDragging: false,
+        show: false,
+        lineOptions: { // Personnalisation du tracé
+          styles: [
+            { color: 'red', opacity: 0.7, weight: 4, dashArray: '10, 10' }
+          ]
+        },
         collapseOnResize: false,
         addWaypoints: false,
         createMarker: function(i, waypoint) {
           const marker = L.marker(waypoint.latLng, {
-            draggable: true,
+            draggable: false,
             icon: i === 0 ? startIcon : endIcon
           });
 
@@ -352,9 +368,41 @@
       const controlContainer = document.querySelector('.leaflet-routing-container');
       if (controlContainer) {
         controlContainer.remove(); // 🔥 Supprime uniquement l'UI, conserve la route
-        console.log("✅ UI du contrôleur supprimée !");
       }
 
+      /**
+       * Ajout des points sur le tracé de la route
+       */
+      routingControl.on('routesfound', function (e) {
+        const route = e.routes[0]; // Récupérer l'itinéraire principal
+
+        /**
+         * Boucle sur les coordonnées du tracé et ajoute des points visibles
+         */
+          for (let i = 0; i < route.coordinates.length; i += Math.floor(route.coordinates.length / 10)) {
+              const coord = route.coordinates[i]; // Coordonnée actuelle
+
+              // Simuler une heure d'enregistrement
+              const timestamp = new Date(Date.now() - (route.coordinates.length - i) * 60000);
+              const timeFormatted = timestamp.toLocaleTimeString();
+
+              // Ajouter un petit point SUR le tracé de la route
+              const pointMarker = L.circleMarker([coord.lat, coord.lng], {
+                radius: 5, 
+                color: "blue", 
+                fillColor: "blue",
+                fillOpacity: 1
+              }).addTo(leafletMap);
+
+              /**
+               * fficher l'heure quand on clique sur le point
+               */
+              pointMarker.bindPopup(`📍 Point ${i + 1} <br> 🕒 Capturé à : ${timeFormatted}`)
+                .on('click', function () {
+                  this.openPopup(); // ✅ Affiche le popup seulement au clic
+                });
+          }
+      });
 
 
     }else{
@@ -379,12 +427,6 @@
    const Options_Region_Departement = ['Region', 'Departement'];
    const Select_Filter_Region_Departement = ref(Options_Region_Departement[0]);
     
-  /**
-   * ICon Taxi
-   */
-   const IconTaxi = "/svg/taxi-svgrepo-com.svg"; 
-   const iconSize = [32, 32]
-   const UserLocation="/svg/location-indicator-red-svgrepo-com.svg";
 
   const waypoints_data = ref(null)
 
