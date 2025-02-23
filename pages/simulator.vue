@@ -19,6 +19,7 @@
     </section>
 
     <section class="col-span-6 ">
+      {{ value }}
       <form @submit.prevent>
          <div class="flex flex-col space-y-4 p-4">
             <div class="flex flex-col space-y-2">
@@ -32,7 +33,11 @@
                  <option value="POST">POST</option>
                </select>
             </div>
-            
+            <div class="ftext-red-500">
+              <MonacoEditor v-model="value" lang="json" style="height: 500px;" :options="{ theme:'vs-dark'}">
+                  // Monaco editor value
+              </MonacoEditor>
+            </div>
             <button type="submit" class="p-2 bg-blue-500 text-white">Submit</button>
          </div>
       </form>
