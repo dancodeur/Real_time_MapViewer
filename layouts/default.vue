@@ -4,7 +4,7 @@
 
         <UDashboardNavbar>
             <template #left>
-                <h1>HELLO</h1>
+                <h1 class="text-xl font-sans">Dan E.</h1>
             </template>
         </UDashboardNavbar>
 

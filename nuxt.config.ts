@@ -11,5 +11,7 @@ export default defineNuxtConfig({
       codeEditor: 'MonacoEditor',
       diffEditor: 'MonacoDiffEditor'
     }
-  }
+  },
+  ssr: false,
+
 })

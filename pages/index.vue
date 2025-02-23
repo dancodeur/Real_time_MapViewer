@@ -1,10 +1,11 @@
 <template>
     <div style="height:100vh; width:100vw">
+    <ClientOnly>
       <LMap
         ref="map"
         :zoom="zoom"
         :center="[47.21322, -1.559482]"
-        :use-global-leaflet="false"
+        :use-global-leaflet="true"
         :options="{
             zoomControl: false,
         }"
@@ -77,7 +78,7 @@
           <!-- Zoom Control -->
           <LControlZoom position="bottomright" />
          
-        < <!-- Marker 
+         <!-- Marker 
             Les markers ne sont affichés que si l'option d'affichage est activée 
           -->
 
@@ -109,7 +110,7 @@
         <!-- Control Display -->
         <LControl position="topright">
             <div class="relative p-3 w-auto">
-              <UButton label="Affichage" color="blue" icon="i-heroicons-square-3-stack-3d"  @click="isModalOpenLayers = ! isModalOpenLayers" />
+              <UButton label="Affichage" color="blue" class="dark:text-slate-20" icon="i-heroicons-square-3-stack-3d"  @click="isModalOpenLayers = ! isModalOpenLayers" />
 
               <div class="absolute text-sm w-[270px] p-2 top-[4rem] -left-[9rem]  bg-slate-50 dark:bg-slate-800 rounded-md shadow-md" v-if="isModalOpenLayers">
                 <UDashboardPanelContent class="h-[340px] space-y-2">
@@ -237,6 +238,7 @@
           </LMarker>
 
       </LMap>
+    </ClientOnly>
     </div>
 
     <UDashboardSlideover v-model="open" title="Waypoints">
@@ -269,7 +271,30 @@
   
   <script setup>
   import { ref, onMounted } from 'vue'
-  const map = ref(null)
+  import L from 'leaflet'
+  import 'leaflet/dist/leaflet.css';
+  import 'leaflet-routing-machine';
+  import 'leaflet-routing-machine/dist/leaflet-routing-machine.css'; //
+
+  const map = ref(null); 
+    
+  /**
+   * ICON Custom
+   */
+    const startIcon = L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png', // Départ
+      iconSize: [35, 35],
+      iconAnchor: [17, 34],
+      popupAnchor: [0, -34]
+    });
+
+    const endIcon = L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/149/149059.png', // Arrivée
+      iconSize: [35, 35],
+      iconAnchor: [17, 34],
+      popupAnchor: [0, -34]
+    });
+  
   
 
   /***
@@ -287,9 +312,51 @@
     const leafletMap = map.value.leafletObject;
     console.log(leafletMap);
     if(leafletMap){
+
       leafletMap.on('dblclick', (e)=>{
         console.log(e.latlng);
       })
+
+      /**
+       * Je poeux utuliser la variale 
+       * routingControl
+       */
+
+      const routingControl=L.Routing.control({
+        waypoints: [
+          L.latLng(48.8566, 2.3522), // Départ
+          L.latLng(49.8666, 6.3622)  // Arrivée
+        ],
+        routeWhileDragging: true,
+        show: true,
+        collapseOnResize: false,
+        addWaypoints: false,
+        createMarker: function(i, waypoint) {
+          const marker = L.marker(waypoint.latLng, {
+            draggable: true,
+            icon: i === 0 ? startIcon : endIcon
+          });
+
+          marker.bindPopup(i === 0 ? "🚀 Point de départ" : "🏁 Destination").openPopup();
+
+          return marker;
+  
+        }
+      }).addTo(leafletMap);
+
+      /**
+       * Suppression de l'UI du contrôleur
+       * Leaflet Routing control  
+       */
+
+      const controlContainer = document.querySelector('.leaflet-routing-container');
+      if (controlContainer) {
+        controlContainer.remove(); // 🔥 Supprime uniquement l'UI, conserve la route
+        console.log("✅ UI du contrôleur supprimée !");
+      }
+
+
+
     }else{
       console.log('Map not ready');
     }
@@ -583,5 +650,5 @@
 
     })
    
-  </script>
+</script>
   

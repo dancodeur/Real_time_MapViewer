@@ -19,7 +19,6 @@
     </section>
 
     <section class="col-span-6 ">
-      {{ value }}
       <form @submit.prevent>
          <div class="flex flex-col space-y-4 p-4">
             <div class="flex flex-col space-y-2">
