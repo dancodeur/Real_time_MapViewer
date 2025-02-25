@@ -144,7 +144,8 @@
                         <UIcon name="i-heroicons-arrow-up-tray" class="w-5 h-5 mx-auto text-primary-500" />
                         <span class="text-center">Uploder un fichier</span>
                       </label>
-                      <input type="file" id="file" class="hidden" accept=".geojson,.json" @change="handleFileUpload" />
+                      <!-- <input type="file" id="file"  class="hidden" accept=".geojson,.json, .gpx" @change="handleFileUpload" /> -->
+                      <input type="file" id="file" class="hidden" accept=".geojson,.json,.gpx" @change="handleFileUpload" />
                   </div>
                   
                
@@ -277,6 +278,7 @@
   import 'leaflet-routing-machine/dist/leaflet-routing-machine.css'; //
   import 'leaflet.fullscreen';
   import 'leaflet.fullscreen/Control.FullScreen.css';
+  import 'leaflet-gpx';
 
   const map = ref(null); 
     
@@ -304,8 +306,6 @@
    const iconSize = [32, 32]
    const UserLocation="/svg/location-indicator-red-svgrepo-com.svg";
   
-  
-
   /***
    * Quand la carte leaflet est prête
    * et que l'instance de la carte est disponible
@@ -331,13 +331,6 @@
           'true': 'Exit Fullscreen'
         }
       }));
-
-      /**
-       * La variable
-       * leafletMap contient l'instance de la carte
-       * pour manipuler les évenements
-       */
-
 
       leafletMap.on('dblclick', (e)=>{
         console.log(e.latlng);
@@ -602,31 +595,69 @@
   }); 
 
   /**
-   * Uplaoader un fichier GeoJson
+   * Uplaoader un fichier GeoJSON 
+   * ou GPX
    */
 
    const NewJSonFiles_upload = ref(null);
   
    function handleFileUpload(event) {
-      const file = event.target.files[0]
+      const file = event.target.files[0];
+
       if (file) {
-        const reader = new FileReader()
-        reader.readAsText(file)
-        reader.onload = (e) => {
-          const geojson = JSON.parse(e.target.result);
+        const reader = new FileReader();
 
-         
-          NewJSonFiles_upload.value = geojson;
-         
-          if(NewJSonFiles_upload.value !== null){
-            message_popup.value = true;
-            console.log(NewJSonFiles_upload.value);
-          }
+        if (file.name.endsWith('.geojson') || file.name.endsWith('.json')) {
+          // ✅ Lire et traiter les fichiers GeoJSON normalement
+          reader.readAsText(file);
+          reader.onload = (e) => {
+            try {
+              const geojson = JSON.parse(e.target.result);
+              NewJSonFiles_upload.value = geojson;
 
-          console.log(NewJSonFiles_upload.value);
+              if (NewJSonFiles_upload.value !== null) {
+                message_popup.value = true;
+                console.log("✅ GeoJSON chargé :", NewJSonFiles_upload.value);
+              }
+            } catch (error) {
+              console.error("❌ Erreur lors de la lecture du GeoJSON :", error);
+            }
+          };
+        } 
+        
+        else if (file.name.endsWith('.gpx')) {
+            // ✅ Lire et traiter les fichiers GPX
+            const leafletMap = map.value.leafletObject;
+            reader.readAsText(file);
+            reader.onload = (e) => {
+            const gpxData = e.target.result; // Contenu brut du fichier GPX
+
+              // ✅ Ajouter directement le contenu GPX sans passer par une URL
+            new L.GPX(gpxData, {
+              async: true,
+              marker_options: {
+                    startIconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png', // Icône départ
+                    endIconUrl: 'https://cdn-icons-png.flaticon.com/512/149/149059.png', // Icône arrivée
+                    shadowUrl: ''
+                  }}).on('loaded', function (e) {
+                    leafletMap.fitBounds(e.target.getBounds()); // Centrer la carte sur le parcours
+                    console.log("✅ GPX chargé et affiché !");
+                  })
+                  .on('error', function(e) {
+                    console.error("❌ Erreur lors du chargement du fichier GPX :", e);
+                  })
+                  .addTo(leafletMap);
+
+              message_popup.value = true;
+
+            };
+        } 
+        
+        else {
+          console.error("❌ Format de fichier non pris en charge !");
+        }
       }
     }
-   }
 
 
   /***
