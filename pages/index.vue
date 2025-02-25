@@ -275,6 +275,8 @@
   import 'leaflet/dist/leaflet.css';
   import 'leaflet-routing-machine';
   import 'leaflet-routing-machine/dist/leaflet-routing-machine.css'; //
+  import 'leaflet.fullscreen';
+  import 'leaflet.fullscreen/Control.FullScreen.css';
 
   const map = ref(null); 
     
@@ -314,14 +316,28 @@
   const onMapReady=()=>{
     console.log('Map is ready');
     const leafletMap = map.value.leafletObject;
+     
+
     console.log(leafletMap);
     if(leafletMap){
+
+      /**
+       * Ajout du controleur de plein écran
+       */
+      leafletMap.addControl(new L.Control.FullScreen({
+        position: 'bottomright',
+        title: {
+          'false': 'View Fullscreen',
+          'true': 'Exit Fullscreen'
+        }
+      }));
 
       /**
        * La variable
        * leafletMap contient l'instance de la carte
        * pour manipuler les évenements
        */
+
 
       leafletMap.on('dblclick', (e)=>{
         console.log(e.latlng);
