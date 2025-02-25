@@ -13,6 +13,7 @@
     "@nuxt/ui": "^2.21.0",
     "@nuxt/ui-pro": "^1.7.0",
     "@nuxtjs/leaflet": "^1.2.6",
+    "leaflet-draw": "^1.0.4",
     "leaflet-gpx": "^2.1.2",
     "leaflet-routing-machine": "^3.2.12",
     "leaflet.fullscreen": "^3.0.2",

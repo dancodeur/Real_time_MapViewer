@@ -279,8 +279,12 @@
   import 'leaflet.fullscreen';
   import 'leaflet.fullscreen/Control.FullScreen.css';
   import 'leaflet-gpx';
+  import "leaflet-draw";
+  import "leaflet-draw/dist/leaflet.draw.css";
+
 
   const map = ref(null); 
+  const drawnShapes = ref([]); // Stocker les objets dessinés
     
   /**
    * ICON Custom
@@ -319,7 +323,41 @@
      
 
     console.log(leafletMap);
+    
     if(leafletMap){
+      /**
+       * Ajout leaflet draw
+       */
+
+      const drawnItems = new L.FeatureGroup();
+      leafletMap.addLayer(drawnItems);
+
+      const drawControl = new L.Control.Draw({
+        draw: {
+          polyline: true,
+          polygon: true,
+          rectangle: true,
+          circle: true,
+          marker: true
+        },
+        edit: {
+          featureGroup: drawnItems,
+          remove: true
+        }
+      });
+
+      leafletMap.addControl(drawControl);
+
+      // ✅ Écoute les dessins et stocke les coordonnées
+      leafletMap.on(L.Draw.Event.CREATED, function (event) {
+        const layer = event.layer;
+        drawnItems.addLayer(layer);
+        
+        // ✅ Ajouter l'objet GeoJSON à la liste des formes
+        drawnShapes.value.push(layer.toGeoJSON());
+
+        console.log("✅ Objet dessiné :", layer.toGeoJSON());
+      });
 
       /**
        * Ajout du controleur de plein écran
@@ -738,6 +776,10 @@
 
 
     })
+
+
+
+
    
 </script>
   
