@@ -142,7 +142,7 @@
                   <div class="px-3 py-3 border-2 border-dashed border-gray-300 h-auto rounded-md">
                       <label for="file" class="text-sm cursor-pointer  flex flex-col justify-center space-y-3">
                         <UIcon name="i-heroicons-arrow-up-tray" class="w-5 h-5 mx-auto text-primary-500" />
-                        <span class="text-center">Uploder un fichier</span>
+                        <span class="text-center">Téléverser un fichier</span>
                       </label>
                       <!-- <input type="file" id="file"  class="hidden" accept=".geojson,.json, .gpx" @change="handleFileUpload" /> -->
                       <input type="file" id="file" class="hidden" accept=".geojson,.json,.gpx" @change="handleFileUpload" />
@@ -265,7 +265,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                   </svg>
               </div>
-              <span class="text-md">Le fichier a été uploader avec succès ! </span>
+              <span class="text-md">Le fichier a été téléverser avec succès ! </span>
           </div>
       </div>
   </template>
@@ -513,7 +513,7 @@
       value: false
     },
     {
-      label: 'Météo condition',
+      label: 'Conditions météo',
       value: false
     }, 
     {
