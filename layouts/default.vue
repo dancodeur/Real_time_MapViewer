@@ -4,7 +4,7 @@
 
         <UDashboardNavbar>
             <template #left>
-                <h1 class="text-xl font-sans">Dan E.</h1>
+                <h1 class="text-xl font-sans">Dan Elenga</h1>
             </template>
         </UDashboardNavbar>
 
@@ -31,7 +31,7 @@
   
   //links for the sidebar
     const links = [{
-        label: 'Map',
+        label: 'Carte',
         icon: 'i-heroicons-map',
         to: '/'
         }, {
@@ -39,8 +39,8 @@
         icon: 'i-heroicons-command-line',
         children:[
             {
-                label: 'Simulator',
-                to: '/simulator'
+                label: 'Simulateur',
+                to: '#'
             }
         ]
     }]

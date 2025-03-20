@@ -380,32 +380,32 @@
        * pour manipuler le controleur de la route
        */
 
-      const routingControl=L.Routing.control({
-        waypoints: [
-          L.latLng(48.8566, 2.3522), // Départ
-          L.latLng(49.8666, 6.3622)  // Arrivée
-        ],
-        routeWhileDragging: false,
-        show: false,
-        lineOptions: { // Personnalisation du tracé
-          styles: [
-            { color: 'red', opacity: 0.7, weight: 4, dashArray: '10, 10' }
-          ]
-        },
-        collapseOnResize: false,
-        addWaypoints: false,
-        createMarker: function(i, waypoint) {
-          const marker = L.marker(waypoint.latLng, {
-            draggable: false,
-            icon: i === 0 ? startIcon : endIcon
-          });
+      // const routingControl=L.Routing.control({
+      //   waypoints: [
+      //     L.latLng(48.8566, 2.3522), // Départ
+      //     L.latLng(49.8666, 6.3622)  // Arrivée
+      //   ],
+      //   routeWhileDragging: false,
+      //   show: false,
+      //   lineOptions: { // Personnalisation du tracé
+      //     styles: [
+      //       { color: 'red', opacity: 0.7, weight: 4, dashArray: '10, 10' }
+      //     ]
+      //   },
+      //   collapseOnResize: false,
+      //   addWaypoints: false,
+      //   createMarker: function(i, waypoint) {
+      //     const marker = L.marker(waypoint.latLng, {
+      //       draggable: false,
+      //       icon: i === 0 ? startIcon : endIcon
+      //     });
 
-          marker.bindPopup(i === 0 ? "🚀 Point de départ" : "🏁 Destination").openPopup();
+      //     marker.bindPopup(i === 0 ? "🚀 Point de départ" : "🏁 Destination").openPopup();
 
-          return marker;
+      //     return marker;
   
-        }
-      }).addTo(leafletMap);
+      //   }
+      // }).addTo(leafletMap);
 
       /**
        * Suppression de l'UI du contrôleur
