@@ -142,7 +142,7 @@
                   <div class="px-3 py-3 border-2 border-dashed border-gray-300 h-auto rounded-md">
                       <label for="file" class="text-sm cursor-pointer  flex flex-col justify-center space-y-3">
                         <UIcon name="i-heroicons-arrow-up-tray" class="w-5 h-5 mx-auto text-primary-500" />
-                        <span class="text-center">Téléverser un fichier</span>
+                        <span class="text-center">Téléverser un fichier GPX/GeoJson</span>
                       </label>
                       <!-- <input type="file" id="file"  class="hidden" accept=".geojson,.json, .gpx" @change="handleFileUpload" /> -->
                       <input type="file" id="file" class="hidden" accept=".geojson,.json,.gpx" @change="handleFileUpload" />
