@@ -14,4 +14,4 @@ Ce projet est une application de visualisation de carte en temps réel utilisant
 
 ## Auteur
 
-Dan Elenga (dancodeur)
+Dan Elenga (dancodeur) 2025.
