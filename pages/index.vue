@@ -728,7 +728,7 @@
 
       const leafletMap = map.value.leafletObject;
       // leafletMap.setView([lat, lon], 13);
-      leafletMap.flyTo([lat, lon], 13);
+      //leafletMap.flyTo([lat, lon], 13);
    }
 
    const DisplayError=(err)=>{
